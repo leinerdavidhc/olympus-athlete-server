@@ -1,6 +1,6 @@
 # Olympus Athlete Server
 
-![Olympus Athlete](https://link-to-your-logo.com/logo.png)
+![Leiner David](https://leinerhoyos.netlify.app/LOGO%20OSCURO.png)
 
 El servidor de **Olympus Athlete** es el backend que impulsa la plataforma web diseñada para ayudar a los usuarios a crear y gestionar rutinas de entrenamiento personalizadas. Esta aplicación, construida con Express.js, maneja la lógica de negocio y la interacción con la base de datos MySQL utilizando Sequelize como ORM.
 
