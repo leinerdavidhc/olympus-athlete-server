@@ -13,9 +13,8 @@ export class UserValidator {
       .regex(/[A-Z]/, "Password must contain at least one uppercase letter"),
     sexo: z.union([
       z.literal("Male"),
-      z.literal("Female"),
-      z.literal("Intersex")
-    ]).refine(val => ["Male", "Female", "Intersex"].includes(val), {
+      z.literal("Female")
+    ]).refine(val => ["Male", "Female"].includes(val), {
       message: "Invalid gender"
     }),
     height: z.number().positive("Height must be a positive number").min(0, "Height is required"),

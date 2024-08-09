@@ -85,7 +85,7 @@ export class Motivation extends Model {
     public id!: number;
     public description!: string;
 }
-export interface Motivation{
+export interface MotivationI{
     id: number;
     description: string;
 }

@@ -5,6 +5,7 @@ export class UserMiddleware {
     static validateLogin(req: Request, res: Response, next: NextFunction) {
         const validationResult = UserValidator.validateUserLogin(req.body)
         if (!validationResult.valid) return res.status(401).json({ message: "it is not possible to log in" })
+            
         req.body.email = req.body.email.toLowerCase().trim();
         req.body.password = req.body.password.trim();
 

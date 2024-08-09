@@ -36,7 +36,7 @@ User.init({
         allowNull:false,
     },
     sexo:{
-        type: DataTypes.ENUM("Male", "Female","Intersex"),
+        type: DataTypes.ENUM("Male", "Female"),
         allowNull:false,
     },
     height: {
