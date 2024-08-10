@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { MuscleGroupController } from '../controllers/muscleGroup.controller';
-import { UploadCloudinary } from '../middlewares/upload.middleware';
+import UploadFilesToCloudinary from '../middlewares/uploadFilesToCloudinary.middleware';
 
 export default class MuscleGroupRouter {
     public router: Router = Router();
@@ -11,8 +11,8 @@ export default class MuscleGroupRouter {
 
     private initializer() {
         this.router.post('/muscle-groups',
-            UploadCloudinary.upload.single("image"),
-            UploadCloudinary.Uploadfile('muscleGroup'),
+            UploadFilesToCloudinary.upload,
+            UploadFilesToCloudinary.uploadFiles('muscleGroup'),
             MuscleGroupController.create
         );
 
@@ -20,8 +20,8 @@ export default class MuscleGroupRouter {
         this.router.get('/muscle-groups/:id', MuscleGroupController.getById);
 
         this.router.put('/muscle-groups/:id',
-            UploadCloudinary.upload.single("image"),
-            UploadCloudinary.Uploadfile('muscleGroup'),
+            UploadFilesToCloudinary.upload,
+            UploadFilesToCloudinary.uploadFiles('muscleGroup'),
             MuscleGroupController.update
         );
 

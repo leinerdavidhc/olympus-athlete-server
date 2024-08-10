@@ -5,27 +5,22 @@ import { User } from '../models/user.model';
 export class BlogArticleController {
 
     // Crear un nuevo artículo de blog
-    public static async create(req: Request, res: Response): Promise<Response> {
+    public static async create(req: Request, res: Response): Promise<void> {
         try {
             const { title, content, authorId, publishDate } = req.body;
-
-            // Verificar que el autor existe
-            const author = await User.findByPk(authorId);
-            if (!author) {
-                return res.status(404).json({ error: 'Autor no encontrado' });
-            }
+            const imageUrl = req.body.imageUrl; // Obtener la URL de la imagen
 
             const newArticle = await BlogArticle.create({
                 title,
                 content,
                 authorId,
-                publishDate
+                publishDate,
+                imageUrl  // Guardar la URL de la imagen
             });
 
-            return res.status(201).json(newArticle);
+            res.status(201).json(newArticle);
         } catch (error) {
-            console.error('Error al crear el artículo de blog:', error);
-            return res.status(500).json({ error: 'Error al crear el artículo de blog' });
+            res.status(500).json({ error: 'Failed to create article' });
         }
     }
 
@@ -33,7 +28,7 @@ export class BlogArticleController {
     public static async getAll(req: Request, res: Response): Promise<Response> {
         try {
             const articles = await BlogArticle.findAll({
-                include: [{ model: User, attributes: ['id', 'username', 'email'] }]
+                include: [{ model: User, attributes: ['id', 'fullname', 'email'] }]
             });
 
             return res.status(200).json(articles);
@@ -48,7 +43,7 @@ export class BlogArticleController {
         try {
             const { id } = req.params;
             const article = await BlogArticle.findByPk(id, {
-                include: [{ model: User, attributes: ['id', 'username', 'email'] }]
+                include: [{ model: User, attributes: ['id', 'fullname', 'email'] }]
             });
 
             if (!article) {
@@ -63,35 +58,25 @@ export class BlogArticleController {
     }
 
     // Actualizar un artículo de blog por ID
-    public static async update(req: Request, res: Response): Promise<Response> {
+    public static async update(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const { title, content, authorId, publishDate } = req.body;
+            const { title, content, publishDate, imageUrl } = req.body;
 
             const article = await BlogArticle.findByPk(id);
-            if (!article) {
-                return res.status(404).json({ error: 'Artículo de blog no encontrado' });
+
+            if (article) {
+                article.title = title;
+                article.content = content;
+                article.publishDate = publishDate;
+                article.imageUrl = imageUrl; // Actualizar la URL de la imagen
+                await article.save();
+                res.status(200).json(article);
+            } else {
+                res.status(404).json({ error: 'Article not found' });
             }
-
-            // Verificar si el autor ha cambiado y si existe
-            if (authorId && authorId !== article.authorId) {
-                const author = await User.findByPk(authorId);
-                if (!author) {
-                    return res.status(404).json({ error: 'Autor no encontrado' });
-                }
-            }
-
-            await article.update({
-                title: title || article.title,
-                content: content || article.content,
-                authorId: authorId || article.authorId,
-                publishDate: publishDate || article.publishDate
-            });
-
-            return res.status(200).json(article);
         } catch (error) {
-            console.error('Error al actualizar el artículo de blog:', error);
-            return res.status(500).json({ error: 'Error al actualizar el artículo de blog' });
+            res.status(500).json({ error: 'Failed to update article' });
         }
     }
 

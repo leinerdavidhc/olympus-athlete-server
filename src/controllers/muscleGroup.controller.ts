@@ -7,7 +7,7 @@ export class MuscleGroupController {
   public static async create(req: Request, res: Response): Promise<Response> {
     try {
       const { name } = req.body;
-      const imageUrl = req.body.image;
+      const imageUrl = req.body.imageUrl; // Cambiar para obtener la URL de la imagen generada por Cloudinary
 
       if (!imageUrl) {
         return res.status(400).json({ error: 'No se proporcionó una URL de imagen' });
@@ -55,7 +55,7 @@ export class MuscleGroupController {
     try {
       const { id } = req.params;
       const { name } = req.body;
-      const newImageUrl = req.body.imageUrl; // Asegúrate de que esto coincide con el nombre del campo en el cuerpo de la solicitud
+      const newImageUrl = req.body.imageUrl; // Obtener la URL de la nueva imagen
 
       const muscleGroup = await MuscleGroup.findByPk(id);
 
@@ -92,7 +92,6 @@ export class MuscleGroupController {
       return res.status(500).json({ error: 'Error al actualizar el grupo muscular' });
     }
   }
-
 
   // Eliminar un grupo muscular por ID
   public static async delete(req: Request, res: Response): Promise<Response> {

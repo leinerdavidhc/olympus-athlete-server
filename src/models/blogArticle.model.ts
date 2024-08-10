@@ -9,6 +9,7 @@ export class BlogArticle extends Model {
     public content!: string;
     public authorId!: number;
     public publishDate!: Date;
+    public imageUrl!: string; 
 }
 
 export interface BlogArticleI {
@@ -17,6 +18,7 @@ export interface BlogArticleI {
     content: string;
     authorId: number;
     publishDate: Date;
+    imageUrl: string;
 }
 
 BlogArticle.init({
@@ -39,6 +41,10 @@ BlogArticle.init({
     publishDate: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    imageUrl: {  // Configurar el campo imageUrl
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     sequelize: database,
